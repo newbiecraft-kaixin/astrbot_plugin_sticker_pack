@@ -49,6 +49,21 @@ AstrBot 4.x 插件。本仓库从 [dafeiyu-open](https://github.com/newbiecraft-
 | `text_match_core_score` / `text_match_min_score` | 文本匹配的「整词命中」与「扫尾」阈值 |
 | `fav_*` | 收藏库自动收集、审核、每日上限 |
 
+## 不用 AI 自动收录（低配 / 手动管库）
+
+不想让机器人自己下载和收录群友发的图，可以整段关掉，改成纯手动维护：
+
+| 配置 | 改成 | 效果 |
+| --- | --- | --- |
+| `fav_enabled` | `false` | 群聊/私聊收图入口直接返回，不下载、不建收藏库、不跑指纹 |
+| `follow_up_probability` | `0` | 关掉「发完文字让 AI 挑一张」的额外模型调用 |
+| `fav_vision_check` | `false` | 没有视觉模型时关掉粗筛 |
+| `inject_index` | 保持 `false` | 索引不进 system prompt，省 token |
+
+关掉之后 `:情绪词:` 的匹配仍然可用（纯本地文字相似度），`send_meme` 只能从你手动的 `map.txt` 库里挑。`tools/` 下有 `purge_static.py`、`fix_gif_ext.py`、`bench_pool.py`、`sync_qq_faces.py` 可以配定时任务做库维护。
+
+完整的低配降级对照（语音、桌宠、微信桥、模型档位）见 [dafeiyu-open / docs/DEGRADED.md](https://github.com/newbiecraft-kaixin/dafeiyu-open/blob/main/docs/DEGRADED.md)。
+
 ## 可选搭配
 
 - `astrbot_plugin_basic_tools` 提供超级表情数据（`data/plugin_data/astrbot_plugin_basic_tools/super_faces.json`）
